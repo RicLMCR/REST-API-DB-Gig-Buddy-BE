@@ -2,36 +2,39 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require("../db/connection");
 
 const User = sequelize.define("User", { 
-    Username: {
+    username: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         unique: true,
     },
-    Email: {
+    email: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         unique: true,
         defaultValue: "Not specified",
     },
-    Password: {
+    password: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         // validate: { len: [7,255] }
     },
     firstname: {
-        type: DateTypes.STRING,
-        allowNull: false,
+        type: DataTypes.STRING,
+        allowNull: true,
     },
-    surename: {
-        type: DateTypes.STRING,
-        allowNull: false,
+    surname: {
+        type: DataTypes.STRING,
+        allowNull: true,
     },
     concerts: {
-        type: DateTypes.STRING,
+        type: DataTypes.STRING,
     }, 
     buddies: {
-        type: DateTypes.STRING,
+        type: DataTypes.STRING,
     }
-})
+   
+},
+
+);
 
 module.exports = User;

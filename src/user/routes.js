@@ -8,7 +8,7 @@ const User = require("../user/model");
 userRouter.post("/user", createUser);
 // userRouter.get("/user", tokenCheck, tokenLoginUser); // Leaving out for now until BE working
 // userRouter.post("/login", unhashPassword, tokenLoginUser);  // Leaving out for now until BE working
-userRouter.put("/user", updateUser);
-userRouter.delete("/user", deleteUser);
+// userRouter.put("/user", updateUser);
+// userRouter.delete("/user", deleteUser);
 
 module.exports = userRouter;
