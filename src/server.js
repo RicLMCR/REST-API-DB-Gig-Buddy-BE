@@ -1,12 +1,13 @@
-require ("./db/connection");//
+// require ("./db/connection");//
 // const {sequelize}=require("./db/connection");
 require ("dotenv").config();
 const express = require ("express");
 const cors = require ("cors");
+const app = express();
 const port = process.env.PORT || 5002;
 const userRouter = require("./user/routes");//
 
-const app = express();
+
 app.use(express.json());
 app.use(cors());
 app.use(userRouter);

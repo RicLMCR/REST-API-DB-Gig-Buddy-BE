@@ -9,7 +9,7 @@ exports.createUser = async (req, res) => {
             email: req.body.email,
             password: req.body.password
         };
-        console.log("abou to create newUser");
+        console.log("about to create newUser");
         const newUser = await User.create(userObj); // insert data into SQL table
 
         console.log(`Successfully added ${newUser.dataValues.username} to the database of users!`);
