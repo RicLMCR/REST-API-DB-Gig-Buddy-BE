@@ -1,14 +1,16 @@
 const { Router } = require("express"); 
 const userRouter = Router();
-const { createUser, tokenLoginUser, updateUser, deleteUser } = require("./controllers");
-// const {hashPassword, unhashPassword, tokenCheck} = require("../middleware"); // Leaving out for now until BE working
+const { createUser, findAllUsers, tokenLoginUser, updateUser, deleteUser } = require("./controllers");
+const {hashPassword, unhashPassword, tokenCheck, userInputCheck, updateInputCheck} = require("../middleware");
 
-const User = require("./model");
+// const User = require("./model");
 
- userRouter.post("/user", createUser);
-//userRouter.get("/user", tokenCheck, tokenLoginUser); // Leaving out for now until BE working
-// userRouter.post("/login", unhashPassword, tokenLoginUser);  // Leaving out for now until BE working
-// userRouter.put("/user", updateUser);
-// userRouter.delete("/user", deleteUser);
+userRouter.post("/user",userInputCheck, hashPassword, createUser);
+userRouter.get("/allusers", findAllUsers);
+userRouter.get("/user", tokenCheck, tokenLoginUser); // persistent login
+userRouter.post("/login", unhashPassword, tokenLoginUser);  // user login
+userRouter.put("/user", updateInputCheck, hashPassword, updateUser); // updating user takes into account all previous checks.
+userRouter.delete("/user", deleteUser);
+
 
 module.exports = userRouter;

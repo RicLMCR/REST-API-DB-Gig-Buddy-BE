@@ -18,5 +18,5 @@ console.log("server working");
 // })
 
 app.listen(port, ()=>{
-    console.log("App is listening");
+    console.log(`App is listening on ${port}`);
 })
