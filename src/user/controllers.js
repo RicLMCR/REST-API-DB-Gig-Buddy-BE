@@ -21,3 +21,14 @@ exports.createUser = async (req, res) => {
         console.log(error);
     }
 }
+
+
+exports.findAllUsers = async (req, res)  => {
+    try {
+        console.log("GET request returning all users") // Use GET with empty { } to return all users in DB
+       const users = await User.findAll()
+       res.send(users)
+    } catch (error) {
+        console.log(error)
+    }
+}
