@@ -34,13 +34,6 @@ const User = sequelize.define("User", {
         defaultValue: "No buddies",
     }
 
-},
+});
 
-);
-
-// (async () => {
-//     await sequelize.sync({ force: true });
-//     // Code here
-//   })();
-
-module.exports = User;
+module.exports = User; 

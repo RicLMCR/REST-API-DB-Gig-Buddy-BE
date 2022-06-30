@@ -6,6 +6,9 @@ const cors = require ("cors");
 const app = express();
 const port = process.env.PORT || 5002;
 const userRouter = require("./user/routes");//
+const { sequelize } = require("./db/connection");
+const User = require("./user/model");
+const Event = require("./event/model")
 
 
 app.use(express.json());
@@ -17,6 +20,8 @@ console.log("server working");
 //     res.send("Hello world");
 // })
 
-app.listen(port, ()=>{
+app.listen(port, async ()=>{
+    await User.sync({alter:true})
+    await Event.sync({alter:true}) // All new tables need to be added here
     console.log(`App is listening on ${port}`);
 })
