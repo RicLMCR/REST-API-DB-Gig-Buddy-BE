@@ -3,7 +3,7 @@ const userRouter = Router();
 const { createUser, findAllUsers, tokenLoginUser, updateUser, deleteUser } = require("./controllers");
 const {hashPassword, unhashPassword, tokenCheck, userInputCheck, updateInputCheck} = require("../middleware");
 
-// const User = require("./model");
+const User = require("./model");
 
 userRouter.post("/user",userInputCheck, hashPassword, createUser);
 userRouter.get("/allusers", findAllUsers);
@@ -12,5 +12,16 @@ userRouter.post("/login", unhashPassword, tokenLoginUser);  // user login
 userRouter.put("/user", updateInputCheck, hashPassword, updateUser); // updating user takes into account all previous checks.
 userRouter.delete("/user", deleteUser);
 
+userRouter.get("/profile/:username", async (req, res) => {
+    const user = await User.findOne({where: { username: req.params.username.substring(1) }, attributes: ["username", "firstname", "surname", "concerts"]});
+    // console.log(user);
+    res.status(200).json({message: user});
+});
+
+userRouter.get("/profile/:id", async (req, res) => {
+    const user = await User.findOne({where: { id: req.params.id }, attributes: ["username", "firstname", "surname", "concerts"]});
+    // console.log(user);
+    res.status(200).json({message: user});
+});
 
 module.exports = userRouter;

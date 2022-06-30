@@ -20,8 +20,16 @@ console.log("server working");
 //     res.send("Hello world");
 // })
 
+<<<<<<< Updated upstream
 app.listen(port, async ()=>{
     await User.sync({alter:true})
     await Event.sync({alter:true}) // All new tables need to be added here
+=======
+const { sequelize } = require("./db/connection");
+const User = require("./user/model");
+app.listen(port, ()=>{
+    // await User.sync({ alter: true });
+    // await Event.sync({ alter: true });
+>>>>>>> Stashed changes
     console.log(`App is listening on ${port}`);
 })

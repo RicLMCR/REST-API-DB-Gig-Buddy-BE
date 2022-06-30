@@ -57,14 +57,13 @@ exports.updateUser = async (req, res) => {
         // console.log(updateRes);
         if (updateRes[0] > 0) { 
             res.send({message: "Account information has been updated"});
-        }else if (false) {
-            res.send({error: "Username does not exist."});
         }else {
             res.send({error: "Account information did not update"});
         }
     } catch (error) {
         console.log(error);
-        res.send({error: "Account information did not update."});
+        if (error.errors) res.send({error: error.errors[0].message});
+        else res.send({error: "Account information did not update."});
     }
 };
 
