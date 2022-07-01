@@ -8,10 +8,10 @@ const Event = sequelize.define("Event", {
         unique: true,
     }, 
     attendees: {
-        type:DataTypes.STRING,
+        type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: true,
-        defaultValue: "[]",
-    }
+        // defaultValue: "[]",
+    },
 }
 )
 
