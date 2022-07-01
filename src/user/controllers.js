@@ -9,7 +9,7 @@ exports.createUser = async (req, res) => {
             email: req.body.email,
             password: req.body.password
         };
-        // console.log("about to create newUser");
+        console.log("about to create newUser");
         const newUser = await User.create(userObj); // insert data into SQL table
         console.log(newUser);
         console.log(`Successfully added ${newUser.dataValues.username} to the database of users!`);
@@ -68,6 +68,7 @@ exports.updateUser = async (req, res) => {
 };
 
 exports.deleteUser = async (req, res) => {
+    console.log("restapi delete hit", req.params.username);
     try {
         const deletedres = await User.destroy({where: {username: req.body.username}});
         // console.log(deletedres);
@@ -84,3 +85,4 @@ exports.deleteUser = async (req, res) => {
         return res.status(500).send({error: error.message});
     }
 };
+
