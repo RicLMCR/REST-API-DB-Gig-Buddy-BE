@@ -19,18 +19,22 @@ const User = sequelize.define("User", {
     },
     firstname: {
         type: DataTypes.STRING,
+        allowNull: true,
         defaultValue: "Not specified",
     },
     surname: {
         type: DataTypes.STRING,
+        allowNull: true,
         defaultValue: "Not specified",
     },
     concerts: {
         type: DataTypes.STRING,
+        allowNull: true,
         defaultValue: "No concerts",
     }, 
     buddies: {
         type: DataTypes.STRING,
+        allowNull: true,
         defaultValue: "No buddies",
     }
 

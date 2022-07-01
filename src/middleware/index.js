@@ -69,6 +69,7 @@ exports.tokenCheck = async (req, res, next) => {
 }
 
 exports.userInputCheck = (req, res, next) => {
+    console.log("userinputcheck");
     try {
         if (req.body.username.length > 0 && (req.body.password.length > 0) && (req.body.email.length > 0)){
             if (req.body.email.includes("@") && (req.body.email.includes("."))){
