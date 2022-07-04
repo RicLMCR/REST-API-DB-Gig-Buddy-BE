@@ -8,7 +8,7 @@ eventRouter.post("/event/create", createEvent);
 eventRouter.post("/attendee/remove", removeAttendee);
 
 eventRouter.get("/event/:id", async (req, res) => {
-    const event = await Event.findOne({where: { event_id: req.params.id.substring(1) }, attributes: ["event_id", "attendees"]});
+    const event = await Event.findOne({where: { event_id: req.params.id }, attributes: ["event_id", "attendees"]});
     res.status(200).json(event);
 });
 
