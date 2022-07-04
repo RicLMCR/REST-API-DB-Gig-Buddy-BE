@@ -1,10 +1,11 @@
 const { Router } = require("express"); 
 const eventRouter = Router();
-const {createEvent} = require("./controllers");
+const {createEvent, removeAttendee} = require("./controllers");
 const {eventInputCheck} = require("../middleware");
 const Event = require("./model");
 
-eventRouter.post("/event", eventInputCheck, createEvent);
+eventRouter.post("/event/create", createEvent);
+eventRouter.post("/attendee/remove", removeAttendee);
 
 
 
