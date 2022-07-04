@@ -8,8 +8,9 @@ eventRouter.post("/event/create", createEvent);
 eventRouter.post("/attendee/remove", removeAttendee);
 
 eventRouter.get("/event/:id", async (req, res) => {
+    console.log(req.params.id)
     const event = await Event.findOne({where: { event_id: req.params.id.substring(1) }, attributes: ["event_id", "attendees"]});
-    res.status(200).json(event);
+    res.status(200).json({event});
 });
 
 
@@ -17,7 +18,7 @@ eventRouter.get("/event/:id", async (req, res) => {
 eventRouter.get("/allevents", async (req, res) => {
     try {
         const events = await Event.findAll();
-        res.send(events);
+        res.send({events});
     } catch (error) {
         console.log(error);
     }
