@@ -1,11 +1,16 @@
 const { Router } = require("express"); 
 const eventRouter = Router();
-const {createEvent} = require("./controllers");
+const {createEvent, removeAttendee} = require("./controllers");
 const {eventInputCheck} = require("../middleware");
 const Event = require("./model");
 
-eventRouter.post("/event", eventInputCheck, createEvent);
+eventRouter.post("/event/create", createEvent);
+eventRouter.post("/attendee/remove", removeAttendee);
 
+eventRouter.get("/event/:id", async (req, res) => {
+    const event = await Event.findOne({where: { event_id: req.params.id.substring(1) }, attributes: ["event_id", "attendees"]});
+    res.status(200).json(event);
+});
 
 
 
