@@ -1,5 +1,6 @@
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 const User = require("./model");
+const Event = require("../Event/model");
 
 exports.createUser = async (req, res) => {
     // console.log("about to create user");
@@ -70,6 +71,14 @@ exports.updateUser = async (req, res) => {
 exports.deleteUser = async (req, res) => {
     console.log("restapi delete hit", req.params.username);
     try {
+        // const eventArr = await Event.findAll()
+        // for (let obj = 0; obj < eventArr.length; obj++) {
+        //     // console.log(eventArr[obj]);
+        //     console.log(eventArr[obj].dataValues)
+        //     if (eventArr[obj].dataValues.attendees.includes(req.params.username)){
+        //         eventArr[obj].dataValues.attendees.splice(eventArr[obj].dataValues.attendees.indexOf(req.body.username), 1);
+        //     }
+        // }
         const deletedres = await User.destroy({where: {username: req.body.username}});
         // console.log(deletedres);
         if (deletedres > 0){
