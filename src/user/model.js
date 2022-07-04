@@ -27,10 +27,9 @@ const User = sequelize.define("User", {
         allowNull: true,
         defaultValue: "Not specified",
     },
-    concerts: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        defaultValue: "No concerts",
+    events_attending: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        defaultValue: [],
     }, 
     buddies: {
         type: DataTypes.STRING,

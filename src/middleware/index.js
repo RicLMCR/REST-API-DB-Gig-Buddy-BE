@@ -115,12 +115,3 @@ exports.updateInputCheck = (req, res, next) => {
         res.send({error: err});;
         }  
     }
-
-
-exports.eventInputCheck = (req, res, next) => {
-    try {
-        next();
-    } catch (error) {
-        console.log(error);
-    }
-}

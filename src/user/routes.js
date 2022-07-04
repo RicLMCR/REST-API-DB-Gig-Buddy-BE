@@ -13,15 +13,16 @@ userRouter.put("/user", updateInputCheck, hashPassword, updateUser); // updating
 userRouter.delete("/:username", deleteUser);
 
 userRouter.get("/profile/:username", async (req, res) => {
-    const user = await User.findOne({where: { username: req.params.username.substring(1) }, attributes: ["username", "firstname", "surname", "concerts"]});
-    // console.log(user);
-    res.status(200).json({message: user});
+    console.log(req.params.username.substring(1))
+    const user = await User.findOne({where: { username: req.params.username.substring(1) }, attributes: ["username", "firstname", "surname", "events_attending"]});
+    console.log(user);
+    res.status(200).json({profile: user});
 });
 
-userRouter.get("/profile/:id", async (req, res) => {
-    const user = await User.findOne({where: { id: req.params.id }, attributes: ["username", "firstname", "surname", "concerts"]});
-    // console.log(user);
-    res.status(200).json({message: user});
-});
+// userRouter.get("/profile/:id", async (req, res) => {
+//     const user = await User.findOne({where: { id: req.params.id }, attributes: ["username", "firstname", "surname", "events_attending"]});
+//     // console.log(user);
+//     res.status(200).json({profile: user});
+// });
 
 module.exports = userRouter;
