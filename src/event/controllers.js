@@ -2,9 +2,9 @@ const Event = require("./model");
 
 exports.createEvent = async (req, res) => {
     // validate request post body
-    if (typeof(req.body.eventId) !== "number" || typeof(req.body.username) !== "string"){
-        return res.status(400).json({error: "bad request - eventId must be number and username must be string"});
-    }
+    // if (typeof(req.body.eventId) !== "number" || typeof(req.body.username) !== "string"){
+    //     return res.status(400).json({error: "bad request - eventId must be number and username must be string"});
+    // }
     try {
         const existingEvent = await Event.findOne({where: { event_id: req.body.eventId }});
 
