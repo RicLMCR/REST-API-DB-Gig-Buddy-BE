@@ -62,7 +62,7 @@ exports.removeAttendee = async (req, res) => {
             await Event.update({attendees: attendees }, { where: {event_id: req.body.eventId}});
             // same for their own events_attending list
             events_attending.splice(events_attending.indexOf(req.body.eventId), 1);
-            await Event.update({events_attending: events_attending }, {where: {username: req.body.username}});
+            await User.update({events_attending: events_attending }, {where: {username: req.body.username}});
             res.status(200).json({userEvent: existingEvent });
         }
     } catch (error) {
