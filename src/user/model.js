@@ -17,6 +17,11 @@ const User = sequelize.define("User", {
         allowNull: false,
         // validate: { len: [7,255] } // wont work when passwords are hashed
     },
+    imageUrl: {
+        type:DataTypes.STRING,
+        allowNull: true,
+        defaultValue: "Not specified",
+    },
     firstname: {
         type: DataTypes.STRING,
         allowNull: true,

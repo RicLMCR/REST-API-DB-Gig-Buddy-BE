@@ -7,7 +7,9 @@ exports.createUser = async (req, res) => {
         const userObj = {
             username: req.body.username,
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
+            imageUrl: req.body.imageUrl
+            
         };
         console.log("about to create newUser");
         const newUser = await User.create(userObj); // insert data into SQL table
