@@ -13,8 +13,6 @@ eventRouter.get("/event/:id", async (req, res) => {
     res.status(200).json({event});
 });
 
-
-
 eventRouter.get("/allevents", async (req, res) => {
     try {
         const events = await Event.findAll();
