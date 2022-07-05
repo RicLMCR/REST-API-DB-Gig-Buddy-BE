@@ -4,7 +4,7 @@ const { sequelize } = require("../db/connection");
 
 const Event = sequelize.define("Event", {
     event_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING, // String as skiddle api stores eventId as a string
         unique: true,
     }, 
     attendees: {
