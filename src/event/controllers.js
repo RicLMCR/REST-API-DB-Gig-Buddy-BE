@@ -3,8 +3,8 @@ const User = require("../user/model");
 
 exports.createEvent = async (req, res) => {
     // validate request post body
-    if (typeof(req.body.eventId) !== "number" || typeof(req.body.username) !== "string"){
-        return res.status(400).json({error: "bad request - eventId must be number and username must be string"});
+    if (typeof(req.body.eventId) !== "string" || typeof(req.body.username) !== "string"){
+        return res.status(400).json({error: "bad request - eventId and username must be string"});
     }
     try {
         const existingEvent = await Event.findOne({where: { event_id: req.body.eventId }});
@@ -45,8 +45,8 @@ exports.createEvent = async (req, res) => {
 
 exports.removeAttendee = async (req, res) => {
     // validate request post body
-    if (typeof(req.body.eventId) !== "number" || typeof(req.body.username) !== "string"){
-        return res.status(400).json({error: "bad request - eventId must be number and username must be string"});
+    if (typeof(req.body.eventId) !== "string" || typeof(req.body.username) !== "string"){
+        return res.status(400).json({error: "bad request - eventId and username must be string"});
     }
     try {
         const existingEvent = await Event.findOne({where: { event_id: req.body.eventId }});
@@ -62,7 +62,7 @@ exports.removeAttendee = async (req, res) => {
             await Event.update({attendees: attendees }, { where: {event_id: req.body.eventId}});
             // same for their own events_attending list
             events_attending.splice(events_attending.indexOf(req.body.eventId), 1);
-            await Event.update({events_attending: events_attending }, {where: {username: req.body.username}});
+            await User.update({events_attending: events_attending }, {where: {username: req.body.username}});
             res.status(200).json({userEvent: existingEvent });
         }
     } catch (error) {
