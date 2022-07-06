@@ -13,17 +13,18 @@ userRouter.put("/user", updateInputCheck, hashPassword, updateUser); // updating
 
 userRouter.delete("/:username", deleteUser);
 userRouter.get("/profile/:username", async (req, res) => {
-    const user = await User.findOne({where: { username: req.params.username }, attributes: ["username","imageUrl", "firstname", "surname", "eventsAttending"]});
-    console.log(user);
+    const user = await User.findOne({where: { username: req.params.username }, attributes: ["username","imageUrl", "firstname", "surname", "eventsAttending","buddyRequests"]});
+    // console.log(user);
+    console.log(user.buddyRequests);
     res.status(200).json({profile: user});
 });
 
 userRouter.put("/buddy/request", sendRequest);
-userRouter.get("/notifications/:username", async (req, res) => {
-    const notifications = await User.findOne({where: { username: req.params.username }, attributes: ["buddyRequests"]});
-    // console.log(notifications);
-    res.status(200).json({notifications});
-});
+// userRouter.get("/notifications/:username", async (req, res) => {
+//     const notifications = await User.findOne({where: { username: req.params.username }, attributes: ["buddyRequests"]});
+//     // console.log(notifications);
+//     res.status(200).json({notifications});
+// });
 
 userRouter.put("/picture", updatePicture);
 

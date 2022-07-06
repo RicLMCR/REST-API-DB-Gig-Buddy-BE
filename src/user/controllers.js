@@ -106,13 +106,14 @@ exports.sendRequest = async (req, res) =>{
             res.status(400).json({error: "Requested user not found in database"});
         }else {
             let buddyRequests = potentialBuddy.buddyRequests;
-            if (buddyRequests.includes(req.body.username)){
-                res.status(400).json({error: "Requested User has not responded to previous request!"});
-            } else {
-                buddyRequests.push({ username: req.body.username,imageUrl: req.body.imageUrl});
-                await User.update({buddyRequests: buddyRequests}, { where: {username: req.body.potentialBuddy}});
-                res.status(200).json({message: "Request has been sent to potential gig buddy!"});
+            for (let item = 0; item < buddyRequests.length; item++){
+                if (buddyRequests[item][0] === req.body.username) {
+                    return res.status(400).json({error: `${req.body.potentialBuddy} has not responded to previous request!`});
+                }
             }
+            buddyRequests.push([req.body.username, req.body.imageUrl]);
+            await User.update({buddyRequests: buddyRequests}, { where: {username: req.body.potentialBuddy}});
+            res.status(200).json({message: `Request has been sent to ${req.body.potentialBuddy}!`});
         }
     } catch (error) {
         console.log(error);
@@ -127,11 +128,20 @@ exports.updatePicture = async (req, res) => {
         }else {
             res.send({error: "Profile picture did not update"});
         }
-
     } catch (error) {
         console.log(error);
         if (error.errors) res.send({error: error.errors[0].message});
         else res.send({error: error});
     }
+}
 
+
+exports.sendResponse = async (req, res) => {
+    try {
+        
+    } catch (error) {
+        console.log(error);
+        if (error.errors) res.send({error: error.errors[0].message});
+        else res.send({error: error});
+    }
 }
