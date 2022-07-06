@@ -32,7 +32,7 @@ const User = sequelize.define("User", {
         allowNull: true,
         defaultValue: "Not specified",
     },
-    events_attending: {
+    eventsAttending: {
         type: DataTypes.ARRAY(DataTypes.STRING),
         defaultValue: [],
     }, 
@@ -40,6 +40,10 @@ const User = sequelize.define("User", {
         type: DataTypes.STRING,
         allowNull: true,
         defaultValue: "No buddies",
+    },
+    buddyRequests: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        defaultValue: [],
     }
 
 });
