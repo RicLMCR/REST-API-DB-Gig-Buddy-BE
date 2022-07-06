@@ -7,14 +7,14 @@ exports.createEvent = async (req, res) => {
         return res.status(400).json({error: "bad request - eventId and username must be string"});
     }
     try {
-        const existingEvent = await Event.findOne({where: { event_id: req.body.eventId }});
+        const existingEvent = await Event.findOne({where: { eventId: req.body.eventId }});
         const existingUser = await User.findOne({where: { username: req.body.username }});
         let eventsAttending = existingUser.eventsAttending;
         if (existingUser === null) {
             res.status(400).json({error: "user not found in database"});
         }else if (existingEvent === null) {
             // create event if it doesn't exist in database and add user to attendees list
-            const userEvent = await Event.create({event_id: req.body.eventId, attendees: [req.body.username]});
+            const userEvent = await Event.create({eventId: req.body.eventId, attendees: [req.body.username]});
             // update user eventsAttending list
             eventsAttending.push(req.body.eventId);
             await User.update({eventsAttending: eventsAttending}, { where: {username: req.body.username}});
@@ -28,7 +28,7 @@ exports.createEvent = async (req, res) => {
             } else {
                 attendees.push(req.body.username);
                 eventsAttending.push(req.body.eventId);
-                await Event.update({attendees: attendees }, { where: {event_id: req.body.eventId}});
+                await Event.update({attendees: attendees }, { where: {eventId: req.body.eventId}});
                 await User.update({eventsAttending: eventsAttending}, { where: {username: req.body.username}});
                 res.status(200).json({userEvent: existingEvent});
             }
@@ -49,7 +49,7 @@ exports.removeAttendee = async (req, res) => {
         return res.status(400).json({error: "bad request - eventId and username must be string"});
     }
     try {
-        const existingEvent = await Event.findOne({where: { event_id: req.body.eventId }});
+        const existingEvent = await Event.findOne({where: { eventId: req.body.eventId }});
         let attendees = existingEvent.attendees;
         const existingUser = await User.findOne({where: { username: req.body.username }});
         let eventsAttending = existingUser.eventsAttending;
@@ -59,7 +59,7 @@ exports.removeAttendee = async (req, res) => {
         } else {
             // find position of attendee and remove them
             attendees.splice(attendees.indexOf(req.body.username), 1);
-            await Event.update({attendees: attendees }, { where: {event_id: req.body.eventId}});
+            await Event.update({attendees: attendees }, { where: {eventId: req.body.eventId}});
             // same for their own eventsAttending list
             eventsAttending.splice(eventsAttending.indexOf(req.body.eventId), 1);
             await User.update({eventsAttending: eventsAttending }, {where: {username: req.body.username}});

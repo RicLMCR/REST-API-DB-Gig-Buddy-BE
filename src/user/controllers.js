@@ -80,7 +80,7 @@ exports.deleteUser = async (req, res) => {
             if (eventArr[obj].dataValues.attendees.includes(`${req.body.username}`)){
                 // remove them from any lists if they are
                 eventArr[obj].dataValues.attendees.splice(eventArr[obj].dataValues.attendees.indexOf(req.body.username), 1);
-                await Event.update({attendees: eventArr[obj].dataValues.attendees }, { where: {event_id: eventArr[obj].dataValues.event_id}});
+                await Event.update({attendees: eventArr[obj].dataValues.attendees }, { where: {eventId: eventArr[obj].dataValues.eventId}});
             }
         }
         const deletedres = await User.destroy({where: {username: req.body.username}});
