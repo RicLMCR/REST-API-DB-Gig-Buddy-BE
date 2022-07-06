@@ -119,3 +119,19 @@ exports.sendRequest = async (req, res) =>{
     }
 }
 
+exports.updatePicture = async (req, res) => {
+    try {
+        const updatePicture = await User.update({imageUrl: req.body.imageUrl}, { where: {username: req.body.username}});
+        if (updatePicture[0] > 0) { 
+            res.send({message: "Profile picture has been updated"});
+        }else {
+            res.send({error: "Profile picture did not update"});
+        }
+
+    } catch (error) {
+        console.log(error);
+        if (error.errors) res.send({error: error.errors[0].message});
+        else res.send({error: error});
+    }
+
+}
