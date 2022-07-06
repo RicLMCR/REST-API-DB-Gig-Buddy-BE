@@ -9,10 +9,12 @@ exports.createEvent = async (req, res) => {
     try {
         const existingEvent = await Event.findOne({where: { eventId: req.body.eventId }});
         const existingUser = await User.findOne({where: { username: req.body.username }});
-        let eventsAttending = existingUser.eventsAttending;
+        
         if (existingUser === null) {
-            res.status(400).json({error: "user not found in database"});
-        }else if (existingEvent === null) {
+            return res.status(400).json({error: "user not found in database"});
+        }
+        let eventsAttending = existingUser.eventsAttending;
+        if (existingEvent === null) {
             // create event if it doesn't exist in database and add user to attendees list
             const userEvent = await Event.create({eventId: req.body.eventId, attendees: [req.body.username]});
             // update user eventsAttending list
