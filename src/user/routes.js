@@ -1,6 +1,6 @@
 const { Router } = require("express"); 
 const userRouter = Router();
-const { createUser, findAllUsers, tokenLoginUser, updateUser, deleteUser } = require("./controllers");
+const { createUser, findAllUsers, tokenLoginUser, updateUser, deleteUser, sendRequest } = require("./controllers");
 const {hashPassword, unhashPassword, tokenCheck, userInputCheck, updateInputCheck} = require("../middleware");
 
 const User = require("./model");
@@ -13,15 +13,16 @@ userRouter.put("/user", updateInputCheck, hashPassword, updateUser); // updating
 userRouter.delete("/:username", deleteUser);
 
 userRouter.get("/profile/:username", async (req, res) => {
-    const user = await User.findOne({where: { username: req.params.username }, attributes: ["username", "firstname", "surname", "events_attending"]});
+    const user = await User.findOne({where: { username: req.params.username }, attributes: ["username", "firstname", "surname", "eventsAttending"]});
     console.log(user);
     res.status(200).json({profile: user});
 });
 
-// userRouter.get("/profile/:id", async (req, res) => {
-//     const user = await User.findOne({where: { id: req.params.id }, attributes: ["username", "firstname", "surname", "events_attending"]});
-//     // console.log(user);
-//     res.status(200).json({profile: user});
-// });
+userRouter.put("/buddy/request", sendRequest);
 
+userRouter.get("/notifications/:username", async (req, res) => {
+    const notifications = await User.findOne({where: { username: req.params.username }, attributes: ["buddyRequests"]});
+    // console.log(notifications);
+    res.status(200).json({notifications});
+});
 module.exports = userRouter;
