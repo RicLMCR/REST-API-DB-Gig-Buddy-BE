@@ -37,9 +37,8 @@ const User = sequelize.define("User", {
         defaultValue: [],
     }, 
     buddies: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        defaultValue: "No buddies",
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        defaultValue: [],
     },
     buddyRequests: {
         type: DataTypes.ARRAY(DataTypes.STRING),

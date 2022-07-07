@@ -100,9 +100,12 @@ exports.deleteUser = async (req, res) => {
 };
 
 exports.sendRequest = async (req, res) =>{
+    if (typeof(req.body.username) !== "string" || typeof(req.body.imageUrl) !== "string" || typeof(req.body.potentialBuddy) !== "string"){
+        return res.status(400).json({error: "bad request - username, imageUrl and potentialBuddy must be string"});
+    }
     try {
         const potentialBuddy = await User.findOne({where: { username: req.body.potentialBuddy }});
-        if (potentialBuddy === null) {
+        if (!potentialBuddy) {
             res.status(400).json({error: "Requested user not found in database"});
         }else {
             let buddyRequests = potentialBuddy.buddyRequests;
@@ -139,7 +142,9 @@ exports.updatePicture = async (req, res) => {
 
 exports.sendResponse = async (req, res) => {
     try {
-        
+        if (req.body.buddyResponse === true){
+
+        } 
     } catch (error) {
         console.log(error);
         if (error.errors) res.send({error: error.errors[0].message});
