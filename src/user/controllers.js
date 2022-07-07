@@ -107,11 +107,13 @@ exports.sendRequest = async (req, res) =>{
         }else {
             let buddyRequests = potentialBuddy.buddyRequests;
             for (let item = 0; item < buddyRequests.length; item++){
-                if (buddyRequests[item][0] === req.body.username) {
+                // converts string into JSON to check if user has already sent a request
+                let obj = JSON.parse(buddyRequests[item]) 
+                if (obj.username === req.body.username) {
                     return res.status(400).json({error: `${req.body.potentialBuddy} has not responded to previous request!`});
                 }
             }
-            buddyRequests.push([req.body.username, req.body.imageUrl]);
+            buddyRequests.push({ username: req.body.username,imageUrl: req.body.imageUrl});
             await User.update({buddyRequests: buddyRequests}, { where: {username: req.body.potentialBuddy}});
             res.status(200).json({message: `Request has been sent to ${req.body.potentialBuddy}!`});
         }
@@ -134,7 +136,6 @@ exports.updatePicture = async (req, res) => {
         else res.send({error: error});
     }
 }
-
 
 exports.sendResponse = async (req, res) => {
     try {
