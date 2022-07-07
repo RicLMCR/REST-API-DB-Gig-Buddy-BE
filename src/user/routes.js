@@ -30,7 +30,7 @@ userRouter.put("/confirmBuddies", confirmBuddies);
 
 userRouter.put("/buddy/request", sendRequest);
 
-
+//test console log for push
 // userRouter.get("/notifications/:username", async (req, res) => {
 //     const notifications = await User.findOne({where: { username: req.params.username }, attributes: ["buddyRequests"]});
 //     // console.log(notifications);
