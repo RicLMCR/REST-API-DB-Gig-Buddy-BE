@@ -44,6 +44,7 @@ exports.findAllUsers = async (req, res)  => {
 exports.tokenLoginUser = async (req, res) => {
     token = await jwt.sign({ id: req.user.id }, process.env.SECRET);
     console.log(`User ${req.user.username} has logged in.`);
+    console.log(req.user);
     res.send({user: req.user, token});
 }
 
@@ -102,7 +103,7 @@ exports.deleteUser = async (req, res) => {
 exports.sendRequest = async (req, res) =>{
     try {
         const potentialBuddy = await User.findOne({where: { username: req.body.potentialBuddy }});
-        if (potentialBuddy === null) {
+        if (!potentialBuddy) {
             res.status(400).json({error: "Requested user not found in database"});
         }else {
             let buddyRequests = potentialBuddy.buddyRequests;
