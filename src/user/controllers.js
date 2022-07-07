@@ -141,35 +141,10 @@ exports.updatePicture = async (req, res) => {
 }
 
 exports.sendResponse = async (req, res) => {
-    const buddyObj = {
-        username: req.body.username,
-        potentialBuddy: req.body.potentialBuddy,
-        buddyResponse: req.body.buddyResponse
-    };
     try {
-        if (req.body.buddyResponse === "true"){
-            const accepter = await User.findOne({where: { username: req.body.username }});
-            const sender = await User.findOne({where: { username: req.body.potentialBuddy }});
+        if (req.body.buddyResponse === true){
 
-            let responderBuddies = accepter.buddies;
-            let senderBuddies = sender.buddies;
-            responderBuddies.push(req.body.potentialBuddy);
-            senderBuddies.push(req.body.username);
-
-            var responderRequests = accepter.buddyRequests;
-            for (let item = 0; item < responderRequests.length; item++){
-                let obj = JSON.parse(responderRequests[item]) 
-                if (obj.username === req.body.potentialBuddy) {
-                    responderRequests.splice(responderRequests[item], 1);
-                }
-            }
-            await User.update({buddies: responderBuddies, buddyRequests: responderRequests}, {where: {username: req.body.username}});
-            await User.update({buddies: senderBuddies}, {where: {username: req.body.potentialBuddy}});
-            res.status(200).json({accepter: accepter, sender: sender } )
-        }else {
-            console.log("Rejected")
-            res.status(200).json({message: "REJECTED" } )
-        }
+        } 
     } catch (error) {
         console.log(error);
         if (error.errors) res.send({error: error.errors[0].message});
