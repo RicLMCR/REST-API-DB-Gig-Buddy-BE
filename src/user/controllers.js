@@ -101,22 +101,54 @@ exports.deleteUser = async (req, res) => {
 };
 
 exports.sendRequest = async (req, res) =>{
+    if (typeof(req.body.username) !== "string" || typeof(req.body.imageUrl) !== "string" || typeof(req.body.potentialBuddy) !== "string"){
+        return res.status(400).json({error: "bad request - username, imageUrl and potentialBuddy must be string"});
+    }
     try {
         const potentialBuddy = await User.findOne({where: { username: req.body.potentialBuddy }});
         if (!potentialBuddy) {
             res.status(400).json({error: "Requested user not found in database"});
         }else {
             let buddyRequests = potentialBuddy.buddyRequests;
-            if (buddyRequests.includes(req.body.username)){
-                res.status(400).json({error: "Requested User has not responded to previous request!"});
-            } else {
-                buddyRequests.push({ username: req.body.username,imageUrl: req.body.imageUrl});
-                await User.update({buddyRequests: buddyRequests}, { where: {username: req.body.potentialBuddy}});
-                res.status(200).json({message: "Request has been sent to potential gig buddy!"});
+            for (let item = 0; item < buddyRequests.length; item++){
+                // converts string into JSON to check if user has already sent a request
+                let obj = JSON.parse(buddyRequests[item]) 
+                if (obj.username === req.body.username) {
+                    return res.status(400).json({error: `${req.body.potentialBuddy} has not responded to previous request!`});
+                }
             }
+            buddyRequests.push({ username: req.body.username,imageUrl: req.body.imageUrl});
+            await User.update({buddyRequests: buddyRequests}, { where: {username: req.body.potentialBuddy}});
+            res.status(200).json({message: `Request has been sent to ${req.body.potentialBuddy}!`});
         }
     } catch (error) {
         console.log(error);
     }
 }
 
+exports.updatePicture = async (req, res) => {
+    try {
+        const updatePicture = await User.update({imageUrl: req.body.imageUrl}, { where: {username: req.body.username}});
+        if (updatePicture[0] > 0) { 
+            res.send({message: "Profile picture has been updated"});
+        }else {
+            res.send({error: "Profile picture did not update"});
+        }
+    } catch (error) {
+        console.log(error);
+        if (error.errors) res.send({error: error.errors[0].message});
+        else res.send({error: error});
+    }
+}
+
+exports.sendResponse = async (req, res) => {
+    try {
+        if (req.body.buddyResponse === true){
+
+        } 
+    } catch (error) {
+        console.log(error);
+        if (error.errors) res.send({error: error.errors[0].message});
+        else res.send({error: error});
+    }
+}
