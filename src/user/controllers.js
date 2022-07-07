@@ -44,6 +44,7 @@ exports.findAllUsers = async (req, res)  => {
 exports.tokenLoginUser = async (req, res) => {
     token = await jwt.sign({ id: req.user.id }, process.env.SECRET);
     console.log(`User ${req.user.username} has logged in.`);
+    console.log(req.user);
     res.send({user: req.user, token});
 }
 
@@ -175,4 +176,28 @@ exports.sendResponse = async (req, res) => {
         if (error.errors) res.send({error: error.errors[0].message});
         else res.send({error: error});
     }
+}
+
+// await User.update({imageUrl: req.body.imageUrl}, { where: {username: req.body.username}});
+exports.confirmBuddies = async (req, res) =>{
+    try {
+        const user = await User.findOne({where:{username:req.body.username}})
+        // console.log("confBudd:", user.dataValues.buddies)
+        const newBuddyArray = [...user.dataValues.buddies, req.body.buddyname]
+        const updateUser = await User.update({buddies: newBuddyArray},{where: {username: user.dataValues.username}})
+
+        const buddy = await User.findOne({where:{username: req.body.buddyname}})
+        const arrayOfMyBuddy = [...buddy.dataValues.buddies, req.body.username] 
+        const updateBuddy = await User.update({buddies: arrayOfMyBuddy},{where: {username: buddy.dataValues.username}})
+        
+        const newBuddy = await User.findOne({where:{username:req.body.buddyname}})
+        console.log("newbuddy:", newBuddy.dataValues.buddies)
+
+        res.send ({message: `Congrats  ${req.body.buddyname}  and you are now Gig Buddies!`});
+
+    } catch (error) {
+        console.log(error)
+    }
+
+
 }
