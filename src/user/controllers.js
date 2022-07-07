@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("./model");
-const Event = require("../Event/model");
+const Event = require("../event/model");
 
 exports.createUser = async (req, res) => {
     // console.log("about to create user");
