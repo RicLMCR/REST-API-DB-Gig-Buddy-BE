@@ -1,6 +1,6 @@
 const { Router } = require("express"); 
 const userRouter = Router();
-const { createUser, findAllUsers, tokenLoginUser, updateUser, deleteUser, sendRequest, updatePicture } = require("./controllers");
+const { createUser, findAllUsers, tokenLoginUser, updateUser, deleteUser, sendRequest, updatePicture, confirmBuddies } = require("./controllers");
 const {hashPassword, unhashPassword, tokenCheck, userInputCheck, updateInputCheck} = require("../middleware");
 
 const User = require("./model");
@@ -24,13 +24,16 @@ userRouter.get("/profile/:username", async (req, res) => {
     user.buddyRequests = newBuddyRequests
     res.status(200).json({profile: user});
 });
-
+userRouter.put("/confirmBuddies", confirmBuddies);
 userRouter.put("/buddy/request", sendRequest);
+
 // userRouter.get("/notifications/:username", async (req, res) => {
 //     const notifications = await User.findOne({where: { username: req.params.username }, attributes: ["buddyRequests"]});
 //     // console.log(notifications);
 //     res.status(200).json({notifications});
 // });
+
+//Route for confirmed buddies please
 
 userRouter.put("/picture", updatePicture);
 
